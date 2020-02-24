@@ -3,6 +3,7 @@
 # date : 20. 2. 23.
 # time : 오후 10:38
 # problem : https://www.acmicpc.net/problem/11052
+# problem type : DP
 
 n = int(input())
 p = list(map(int, input().split()))

@@ -3,6 +3,7 @@
 # date : 20. 2. 23.
 # time : 오후 11:17
 # problem : https://www.acmicpc.net/problem/1256
+# problem type : DP
 
 # input 입력
 n, m, k = map(int, input().split())
