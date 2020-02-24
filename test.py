@@ -1,2 +1,1 @@
-print('helloworld')
-print('really want to say hello')
+print('1 ' * 2000)
