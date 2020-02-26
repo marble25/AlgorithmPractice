@@ -29,3 +29,5 @@
 # sys.setrecursionlimit(10000)
 
 # 제출할 때 : PyPy3로 제출
+
+# Queue를 사용할 때 : collections.deque 사용하자
