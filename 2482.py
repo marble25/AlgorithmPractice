@@ -11,7 +11,7 @@
 n = int(input())
 k = int(input())
 
-# dp[i][j] : i색상을 j번째로 선택하는 경우의 수
+# dp[i][j] : i개의 색상환 중 j개로 선택하는 경우의 수
 dp = [[0] * (k+1) for _ in range(n+1)]
 
 # i색상을 첫 번째로 선택하는 경우의 수는 i이므로 initialize
