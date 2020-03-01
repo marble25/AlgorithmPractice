@@ -7,6 +7,7 @@
 
 # pypy로 제출했더니 메모리 초과 뜬 문제
 # 기수 정렬로 푸니 간단하게 맞음
+# sys.stdout.write를 이용, 프린트하는데 시간을 줄여봄
 
 import sys
 arr = [0] * 10005
@@ -16,5 +17,4 @@ for i in range(n):
     arr[x] += 1
 
 for i in range(1, 10001):
-    for j in range(arr[i]):
-        print(i)
+    sys.stdout.write('%s\n' % i * arr[i])
