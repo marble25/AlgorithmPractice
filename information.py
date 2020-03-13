@@ -32,4 +32,6 @@
 
 # Queue를 사용할 때 : collections.deque 사용하자
 
+# 우선순위 Queue 사용할 때: heapq 사용하자
+
 # pypy를 사용할 때 : exit(0)이 아닌 sys.exit(0)을 사용!!!!
