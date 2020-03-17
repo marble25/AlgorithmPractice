@@ -3,7 +3,7 @@
 # date : 20. 3. 17.
 # time : 오후 6:51
 # problem : https://www.acmicpc.net/problem/1949
-# problem type :
+# problem type : DP, DFS
 
 # 수많은 런타임 에러 속에서 고통받았던 문제
 # 쉬운 문제 같은데 왜 이렇게 많이 틀렸을까
