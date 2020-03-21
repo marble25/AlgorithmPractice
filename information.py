@@ -37,3 +37,8 @@
 # pypy를 사용할 때 : exit(0)이 아닌 sys.exit(0)을 사용!!!!
 
 # pypy를 사용할 때 : 재귀를 지나치게 많이 사용했다면 런타임 에러가 뜨기도 함(추측인데 맞는 것 같음)
+
+# while True:
+#     input_ = sys.stdin.readline()
+#     if input_ == '':
+#         break
