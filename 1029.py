@@ -6,6 +6,7 @@
 # problem type : DP, Bitmask
 
 # 비트마스크를 써야 해서 꽤 어려웠던 문제
+# 이런 문제 유형도 충분히 풀 줄 알아야 한다.
 
 def f(state, artist, c, depth):
     global dp
