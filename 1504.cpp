@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 3. 23..
+//
+
 // 어렵지 않은 플로이드 와샬 알고리즘 문제였지만 작은 조건들에 주의해야 했던 문제
 
 #include <iostream>
@@ -44,12 +48,12 @@ int main() {
         }
     }
     if((dis[0][mid1-1] == 987654321 || dis[mid1-1][mid2-1] == 987654321 || dis[mid2-1][n-1] == 987654321) &&
-            (dis[0][mid2-1] == 987654321 || dis[mid2-1][mid1-1] == 987654321 || dis[mid1-1][n-1] == 987654321)) { // mid1->mid2로 가는 경로와 mid2->mid1으로 가는 경로 중 둘 다 없을 경우
+       (dis[0][mid2-1] == 987654321 || dis[mid2-1][mid1-1] == 987654321 || dis[mid1-1][n-1] == 987654321)) { // mid1->mid2로 가는 경로와 mid2->mid1으로 가는 경로 중 둘 다 없을 경우
         cout << -1 << '\n';
         return 0;
     }
     int result = min(dis[0][mid1-1] + dis[mid1-1][mid2-1] + dis[mid2-1][n-1],
-            dis[0][mid2-1] + dis[mid2-1][mid1-1] + dis[mid1-1][n-1]); // 두 경로 중 최솟값을 넣어줌
+                     dis[0][mid2-1] + dis[mid2-1][mid1-1] + dis[mid1-1][n-1]); // 두 경로 중 최솟값을 넣어줌
     cout << result << '\n';
 
     return 0;
