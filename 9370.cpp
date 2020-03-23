@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 3. 24..
+//
+
 // 사소한 부분을 엄청 많이 틀렸던 문제
 // 한번 할 때 제대로 해야겠다.
 
@@ -74,7 +78,7 @@ int main() {
         bfs(h, dis_h); // h에서 각 정점까지 최단거리를 구함
         for(int & candidate : candidates) {
             if(dis1[g] + gh + dis_h[candidate] == dis1[candidate] ||
-                dis1[h] + gh + dis_g[candidate] == dis1[candidate]) { // s->g->h->후보지 또는 s->h->g->후보지가 s->후보지의 거리와 같을 때
+               dis1[h] + gh + dis_g[candidate] == dis1[candidate]) { // s->g->h->후보지 또는 s->h->g->후보지가 s->후보지의 거리와 같을 때
                 result.push_back(candidate);
             }
         }
