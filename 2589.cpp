@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 3. 25..
+//
+
 // bfs로 돌면서 거리가 최대가 나오는 지점을 체크해 주면 되는 문제
 
 #include <iostream>
