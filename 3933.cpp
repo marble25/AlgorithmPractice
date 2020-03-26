@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 3. 26..
+//
+
 // dp로 풀어보려 했으나 dp로는 쉽지 않아 보이는 문제
 
 #include <iostream>
