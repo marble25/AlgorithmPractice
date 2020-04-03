@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 4. 3..
+//
+
 // 앞의 숨바꼭질 문제에 경로만 추가해주면 되는 문제
 
 #include <iostream>
