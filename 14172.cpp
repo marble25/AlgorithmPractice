@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 4. 6..
+//
+
 // BFS를 이용한 간단한 문제
 
 #include <iostream>
@@ -31,7 +35,7 @@ int main() {
     for(int i=0;i<n;i++) {
         for(int j=0;j<n;j++) {
             dis[i][j] = (input_arr[i][0] - input_arr[j][0]) * (input_arr[i][0] - input_arr[j][0]) +
-                    (input_arr[i][1] - input_arr[j][1]) * (input_arr[i][1] - input_arr[j][1]);
+                        (input_arr[i][1] - input_arr[j][1]) * (input_arr[i][1] - input_arr[j][1]);
             dis[j][i] = dis[i][j];
         }
     }
