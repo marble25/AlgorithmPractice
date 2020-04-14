@@ -43,11 +43,11 @@ int main() {
                 st.pop();
 
                 result += cur.second;
-                if(!st.empty()) {
+                if(!st.empty()) { // 키가 더 큰 사람이 남아 있다면 result에 더해줌
                     result ++;
                 }
 
-                // 예외적으로 뒷 사람과도 연결할 수 있게 해줌
+                // 뒷 사람과 연결된 것을 고려해서 하나 증가된 값을 넣음
                 cur.second++;
                 st.push(cur);
             } else {
