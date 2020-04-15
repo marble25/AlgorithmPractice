@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 4. 15..
+//
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -22,14 +26,14 @@ vector<int> visit;
 vector<int> match;
 
 int dfs(int a) {
-    if(visit[a] == visit_cnt) return 0;
+    if(visit[a] == visit_cnt) return 0; // 이미 방문했다면 리턴
     visit[a] = visit_cnt;
 
     for(int i=0;i<adj[a].size();i++) {
         int b = adj[a][i];
 
-        if(match[b] == -1 || dfs(match[b])) {
-            match[b] = a;
+        if(match[b] == -1 || dfs(match[b])) { // 한 번도 방문하지 않았거나 방문했더라도 다른 방법이 존재하면
+            match[b] = a; // b에서 a로 감(reverse)
             return 1;
         }
     }
@@ -98,7 +102,7 @@ int main() {
         }
 
         int ans = bipartite_match();
-        cout << n*m - ans - crash << '\n';
+        cout << n*m - ans - crash << '\n'; // 매칭된 갯수와 x 갯수 뺀 것을 출력
     }
     return 0;
 }
