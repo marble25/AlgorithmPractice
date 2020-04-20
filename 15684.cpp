@@ -18,7 +18,7 @@ int n, m, h;
 int map[15][30];
 int ans = 987654321;
 
-bool check(int cnt) {
+bool check() {
     for(int i=1;i<=n;i++) {
         int x = i;
         for(int j=1;j<=h;j++) {
@@ -33,21 +33,28 @@ bool check(int cnt) {
     return true;
 }
 
-void f(int idx, int cnt) {
-    if(cnt >= 4) return;
-    if(check(cnt)) {
-        ans = min(ans, cnt);
+void f(int cnt, int max_cnt) {
+    if(cnt == max_cnt) {
+        if(check()) {
+            ans = min(ans, cnt);
+        }
         return;
     }
-    for(int i=idx;i<n;i++) {
+    for(int i=1;i<n;i++) {
         for(int j=1;j<=h;j++) {
             if(map[i][j] == 1) continue;
             if(map[i-1][j] == 1) continue;
             if(map[i+1][j] == 1) continue;
 
             map[i][j] = 1;
-            f(i, cnt+1);
+            f(cnt+1, max_cnt);
             map[i][j] = 0;
+
+            if(ans != 987654321) return;
+            while (j < h) {
+                if (map[i+1][j] || map[i-1][j]) break;
+                ++j;
+            }
         }
     }
 }
@@ -64,12 +71,14 @@ int main() {
         map[y][x] = 1;
     }
 
-    f(1, 0);
-    if(ans == 987654321) {
-        cout << -1;
-    } else {
-        cout << ans;
+    for(int i=0;i<4;i++) {
+        f(0, i);
+        if(ans != 987654321) {
+            cout << ans;
+            return 0;
+        }
     }
+    cout << -1;
 
     return 0;
 }
