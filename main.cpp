@@ -1,7 +1,3 @@
-// 흠.. 간단한 bfs로 풀었는데 런타임 에러가 나서 보았더니
-// array index out of bound였다..
-// 배열값 초과는 생각 못했다..
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -13,51 +9,57 @@
 #include <string.h>
 using namespace std;
 
-int n, m;
-vector<int> linked[110];
+int n, m, k, t;
+int map[305][305] = {0};
+queue<pair<int, int>> q;
+vector<pair<int, int>> check;
+int dx[8] = {-2, -2, -1, -1, 1, 1, 2, 2};
+int dy[8] = {1, -1, 2, -2, 2, -2, 1, -1};
 
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> n >> m;
-    for(int i=0;i<n;i++) {
-        int x, y;
-        cin >> x >> y;
-        linked[x].push_back(y);
-    }
+    cin >> n >> m >> k >> t;
     for(int i=0;i<m;i++) {
         int x, y;
         cin >> x >> y;
-        linked[x].push_back(y);
+        q.push({x, y});
     }
 
-    queue<int> q;
-    int visited[110] = {0};
+    for(int i=0;i<k;i++) {
+        int x, y;
+        cin >> x >> y;
+        check.push_back({x, y});
+    }
 
-    q.push(1);
-    visited[1] = 1;
-    while(!q.empty()) {
-        int x = q.front();
-        if(x == 100) break;
-        q.pop();
-
-        for(int i=1;i<=6;i++) {
-            if(!linked[x+i].empty()) { // 사다리나 뱀으로 연결되어 있으면
-                int linked_node = linked[x+i][0];
-                if(visited[linked_node] == 0) { // 방문 안했으면 queue에 push
-                    q.push(linked_node);
-                    visited[linked_node] = visited[x] + 1;
+    for(int i=1;i<=t;i++) {
+        int q_size = q.size();
+        while(q_size--) {
+            int x = q.front().first, y = q.front().second;
+            for(int j=0;j<8;j++) {
+                int m_x = x + dx[j];
+                int m_y = y + dy[j];
+                if(m_x < 0 || m_y < 0 || m_x >= n || m_y >= n) continue;
+                if(map[m_x][m_y] == 0) {
+                    q.push({m_x, m_y});
+                    map[m_x][m_y] = 1;
                 }
-            } else if(visited[x+i] == 0) { // 연결 안되어 있고 방문 안했으면 queue에 push
-                q.push(x+i);
-                visited[x+i] = visited[x] + 1;
+
             }
         }
     }
+    bool is_clean_needed = false;
+    for(int i=0;i<k;i++) {
+        int x = check[i].first, y = check[i].second;
+        if(map[x][y] != 0) {
+            is_clean_needed = true;
+            break;
+        }
+    }
 
-    cout << visited[100] - 1 << "\n";
+    cout << (is_clean_needed ? "YES" : "NO") << "\n";
 
     return 0;
 }
