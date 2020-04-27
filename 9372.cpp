@@ -36,23 +36,7 @@ int main() {
             linked[y].push_back(x);
         }
 
-        int ans = 0;
-
-        q.push(1);
-        visited[1] = 1;
-        while(!q.empty()) {
-            int x = q.front();
-            q.pop();
-
-            for(int i=0;i<linked[x].size();i++) {
-                int next = linked[x][i];
-                if(visited[next] == 0) {
-                    visited[next] = 1;
-                    ans ++;
-                    q.push(next);
-                }
-            }
-        }
+        int ans = n-1;
 
         cout << ans << '\n';
     }
