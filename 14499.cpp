@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 4. 30..
+//
+
 // 간단하게 풀어본 시뮬레이션 문제
 
 #include <iostream>
