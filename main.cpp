@@ -1,5 +1,3 @@
-//3025번 돌 던지
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -17,14 +15,19 @@ int pointer_floor[35] = {0};
 int pointer_direct[30005][35] = {0};
 
 int calc(int row, int col) {
-    char current_block = map[row+1][col];
-    if(row == r || current_block == 'X') { // 밑바닥이거나 아래칸이 벽일 때
+    char current_block = map[row][col];
+    while(current_block != '.') {
+        row--;
+        current_block = map[row][col];
+    }
+    char under_block = map[row+1][col];
+    if(row == r || under_block == 'X') { // 밑바닥이거나 아래칸이 벽일 때
         map[row][col] = 'O';
         if(row < pointer_floor[col]) { // 현재가 floor보다 높이 있으면 floor에 현재 row 대입
             pointer_floor[col] = row;
         }
         return row-1;
-    } else if(current_block == 'O') {
+    } else if(under_block == 'O') {
         if(col-1 > 0 && map[row][col-1] == '.' && map[row+1][col-1] == '.') {
             calc(row, col-1);
         } else if(col+1 <= c && map[row][col+1] == '.' && map[row+1][col+1] == '.') {
@@ -34,14 +37,13 @@ int calc(int row, int col) {
             if(row < pointer_floor[col]) {
                 pointer_floor[col] = row;
             }
-            for(int i=1;i<=35;i++) {
-                pointer_direct[row-1][i] = pointer_direct[row][i];
-            }
             return row-1;
         }
     } else {
         int re = calc(pointer_direct[row][col], col);
-        if(re != -1) pointer_direct[row][col] = re;
+        if(re != -1) {
+            pointer_direct[row][col] = re;
+        }
     }
     return -1;
 }
@@ -86,15 +88,14 @@ int main() {
         int x;
         cin >> x;
 
-        calc(pointer_floor[x]-1, x);
+        calc(1, x);
+    }
 
-        for(int i=1;i<=r;i++) {
-            for(int j=1;j<=c;j++) {
-                cout << map[i][j];
-            }
-            cout << "\n";
+    for(int k=1;k<=r;k++) {
+        for(int j=1;j<=c;j++) {
+            cout << map[k][j];
         }
-        cout << "\n\n";
+        cout << "\n";
     }
 
 
