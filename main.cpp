@@ -13,31 +13,37 @@ using namespace std;
 
 int r, c, n;
 char map[30005][35] = {0};
-vector<int> map_floor[35];
+int pointer_floor[35] = {0};
+int pointer_direct[30005][35] = {0};
 
-void calc(int row, int col) {
-    for (int j = 0; j < map_floor[col].size(); j++) {
-        if (map_floor[col][j] < row) continue;
-
-        int &f_x = map_floor[col][j];
-        if (f_x == r + 1) {
-            f_x = r;
-            map[f_x][col] = 'O';
-        } else if (map[f_x][col] == 'X') {
-            f_x = f_x - 1;
-            map[f_x][col] = 'O';
-        } else if (map[f_x][col] == 'O') {
-            if (map[f_x-1][col-1] == '.' && map[f_x][col - 1] == '.') {
-                calc(f_x, col - 1);
-            } else if (map[f_x-1][col+1] == '.' && map[f_x][col + 1] == '.') {
-                calc(f_x, col + 1);
-            } else {
-                f_x = f_x - 1;
-                map[f_x][col] = 'O';
-            }
+int calc(int row, int col) {
+    char current_block = map[row+1][col];
+    if(row == r || current_block == 'X') { // 밑바닥이거나 아래칸이 벽일 때
+        map[row][col] = 'O';
+        if(row < pointer_floor[col]) { // 현재가 floor보다 높이 있으면 floor에 현재 row 대입
+            pointer_floor[col] = row;
         }
-        break;
+        return row-1;
+    } else if(current_block == 'O') {
+        if(col-1 > 0 && map[row][col-1] == '.' && map[row+1][col-1] == '.') {
+            calc(row, col-1);
+        } else if(col+1 <= c && map[row][col+1] == '.' && map[row+1][col+1] == '.') {
+            calc(row, col+1);
+        } else {
+            map[row][col] = 'O';
+            if(row < pointer_floor[col]) {
+                pointer_floor[col] = row;
+            }
+            for(int i=1;i<=35;i++) {
+                pointer_direct[row-1][i] = pointer_direct[row][i];
+            }
+            return row-1;
+        }
+    } else {
+        int re = calc(pointer_direct[row][col], col);
+        if(re != -1) pointer_direct[row][col] = re;
     }
+    return -1;
 }
 
 int main() {
@@ -47,28 +53,31 @@ int main() {
 
     cin >> r >> c;
 
+    // 입력
     for(int i=1;i<=r;i++) {
         for(int j=1;j<=c;j++) {
             cin >> map[i][j];
         }
     }
 
+    // 쌓을 수 있는 가장 밑바닥 설정
     for(int j=1;j<=c;j++) {
-        int start = -1;
-        bool flag = false;
-        for(int i=1;i<=r;i++) {
-            if(map[i][j] == 'X' && !flag) {
-                flag = true;
-                start = i;
-            } else if(flag){
-                flag = false;
-                map_floor[j].push_back(start);
+        pointer_floor[j] = r+1;
+        int i=1;
+        for(;i<=r;i++) {
+            if(map[i][j] == 'X' && pointer_floor[j] == r+1) { // 밑바닥에 도달했다면
+                pointer_floor[j] = i; // 밑바닥 포인터 설정
+                break;
             }
         }
-        if(flag) {
-            map_floor[j].push_back(start);
-        } else {
-            map_floor[j].push_back(r+1);
+        int floor_value = r;
+        for(i=r;i>=1;i--) {
+            if(map[i][j] == '.') {
+                pointer_direct[i][j] = floor_value;
+            } else {
+                floor_value = i-1;
+            }
+
         }
     }
 
@@ -77,15 +86,17 @@ int main() {
         int x;
         cin >> x;
 
-        calc(1, x);
+        calc(pointer_floor[x]-1, x);
+
+        for(int i=1;i<=r;i++) {
+            for(int j=1;j<=c;j++) {
+                cout << map[i][j];
+            }
+            cout << "\n";
+        }
+        cout << "\n\n";
     }
 
-    for(int i=1;i<=r;i++) {
-        for(int j=1;j<=c;j++) {
-            cout << map[i][j];
-        }
-        cout << '\n';
-    }
 
 
 
