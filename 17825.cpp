@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 5. 8..
+//
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -91,9 +95,6 @@ int main() {
 
     f(0, 0);
     cout << ans;
-
-
-
 
     return 0;
 }
