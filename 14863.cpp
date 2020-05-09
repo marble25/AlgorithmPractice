@@ -17,7 +17,7 @@ using namespace std;
 int n, k;
 pair<int, int> walk[105];
 pair<int, int> bike[105];
-unordered_map<int, int> mp;
+int dp[100005] = {0};
 
 
 int main() {
@@ -31,6 +31,11 @@ int main() {
         cin >> bike[i].first >> bike[i].second;
     }
 
+    for(int i=0;i<n;i++) {
+        for(int j=k;j>=0;j--) {
+            if()
+        }
+    }
     mp.insert({0, 0});
     for(int i=0;i<n;i++) {
         unordered_map<int, int> temp_map;

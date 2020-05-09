@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 5. 9..
+//
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -13,7 +17,7 @@ using namespace std;
 int n, k;
 pair<int, int> walk[105];
 pair<int, int> bike[105];
-unordered_map<int, int> mp;
+int dp[100005] = {0};
 
 
 int main() {
@@ -27,40 +31,34 @@ int main() {
         cin >> bike[i].first >> bike[i].second;
     }
 
-    mp.insert({0, 0});
-    for(int i=0;i<n;i++) {
-        unordered_map<int, int> temp_map;
-        for(auto &it : mp) {
-            int time = it.first, cost = it.second;
+    if(walk[0].first <= k) {
+        dp[walk[0].first] = max(dp[walk[0].first], walk[0].second);
+    }
+
+    if(bike[0].first <= k) {
+        dp[bike[0].first] = max(dp[bike[0].first], bike[0].second);
+    }
+
+    for(int i=1;i<n;i++) {
+        for(int j=k;j>=0;j--) {
+            if(dp[j] == 0) continue;
+            int time = j, cost = dp[j];
             int bike_time = time + bike[i].first, bike_cost = cost + bike[i].second;
             int walk_time = time + walk[i].first, walk_cost = cost + walk[i].second;
 
-            if(walk_time <= k) {
-                auto item_walk = temp_map.find(walk_time);
-                if(item_walk == temp_map.end()) {
-                    temp_map[walk_time] = walk_cost;
-                } else if(item_walk->second < walk_cost){
-                    temp_map[walk_time] = walk_cost;
-                }
-            }
-
             if(bike_time <= k) {
-                auto item_bike = temp_map.find(bike_time);
-                if(item_bike == temp_map.end()) {
-                    temp_map[bike_time] = bike_cost;
-                } else if(item_bike->second < bike_cost) {
-                    temp_map[bike_time] = bike_cost;
-                }
+                dp[bike_time] = max(bike_cost, dp[bike_time]);
             }
-
+            if(walk_time <= k) {
+                dp[walk_time] = max(walk_cost, dp[walk_time]);
+            }
+            dp[time] = 0;
         }
-
-        mp = temp_map;
     }
 
     int ans = INT32_MIN;
-    for(auto &it : mp) {
-        ans = max(ans, it.second);
+    for(int i=0;i<=k;i++) {
+        ans = max(ans, dp[i]);
     }
 
     cout << ans;
