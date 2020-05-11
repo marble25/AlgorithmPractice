@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 5. 11..
+//
+
 // 작은 시간초과 줄이는 방법으로 시간초과가 나고 안나고 할 수 있다.
 
 #include <iostream>
