@@ -1,3 +1,9 @@
+//
+// Created by marble on 20. 5. 14..
+//
+
+// bfs를 이용해서 간단하게 풀어주었다.
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -30,6 +36,8 @@ void bfs(int sx, int sy, int cnt) {
     while(!q.empty()) {
         int x = q.front().first, y = q.front().second;
         q.pop();
+
+        // 방문한 정점의 값을 더해줌
         cells ++;
         sum += mp[x][y];
 
@@ -46,8 +54,7 @@ void bfs(int sx, int sy, int cnt) {
     }
 
     int value = sum / cells;
-    area[cnt] = value;
-
+    area[cnt] = value; // 다른 배열에다 설정된 값을 넣어줌
 }
 
 int main() {
