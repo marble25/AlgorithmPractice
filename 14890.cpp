@@ -2,6 +2,9 @@
 // Created by marble on 20. 5. 16..
 //
 
+// 생각보다 많이 까다로웠던 문제
+// 작은 조건 실수가 나올 수 있어서 이 조건을 맞추는데 시간이 꽤 걸렸다.
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
