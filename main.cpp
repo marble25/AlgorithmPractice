@@ -1,5 +1,5 @@
-// backtracking으로 풀려고 했다가 가지치기할 경우가 너무 많아서 TLE 떴다.
-// DP로 변경해서 풀었더니 간단하게 풀렸다.
+// 입력이 계속된다는 사실을 간과해서 여러번 틀린 문제
+// 이런 조건도 나올 수 있다는 것을 깨달았다.
 
 #include <iostream>
 #include <cmath>
@@ -13,51 +13,102 @@
 #include <string.h>
 using namespace std;
 
-char s[55];
-char re[55];
-int employee[3] = {0};
-int dp[55][55][55][3][3] = {0}; // 사용한 A개수, B개수, C개수, 이전 알파벳, 그 이전 알파벳
-
-void simulate(int x, int y, int z, int past, int pastpast) {
-    if(x+y+z == strlen(s)) { // 끝까지 왔으면 출력 후 종료
-        re[x+y+z] = 0;
-        cout << re;
-        exit(0);
-    }
-
-    if(dp[x][y][z][past][pastpast] != 0) return; // 가능하지 않은 경우(이미 탐사해봄)이므로 return
-
-    dp[x][y][z][past][pastpast] = 1; // 체크
-
-    if(z+1 <= employee[2] && past != 2 && pastpast != 2) { // C가 남아 있고 이전과 그 이전이 C가 아니면 가능
-        re[x+y+z] = 'C';
-        simulate(x, y, z+1, 2, past);
-    }
-
-    if(y+1 <= employee[1] && past != 1) { // B가 남아 있고 이전이 B가 아니면 가능
-        re[x+y+z] = 'B';
-        simulate(x, y+1, z, 1, past);
-    }
-
-    if(x+1 <= employee[0]) { // A가 남아 있으면 가능
-        re[x+y+z] = 'A';
-        simulate(x+1, y, z, 0, past);
-    }
-}
+char input_data[32][10];
+char op[8][4] = {"000", "001", "010", "011", "100", "101", "110", "111"};
 
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> s;
+    while(true) {
+        int acc = 0;
+        int pc = 0;
+        char acc_string[10] = {0};
 
-    for(int i=0;i<strlen(s);i++) { // 직원의 출근 횟수 더해줌
-        employee[s[i] - 'A'] ++;
+        for(int i=0;i<32;i++) {
+            cin >> input_data[i];
+        }
+
+        if(cin.eof()) {
+            break;
+        }
+
+        while(pc < 32) {
+            char *input = input_data[pc];
+            if(strncmp(input, op[0], 3) == 0) {
+                int address = (input[3]-'0') * 16 + (input[4]-'0') * 8 + (input[5]-'0') * 4
+                              + (input[6]-'0') * 2 + (input[7]-'0') * 1;
+
+                int d = 128;
+                for(int i=0;i<8;i++) {
+                    acc_string[i] = (acc  % (d * 2) / d) + '0';
+                    d /= 2;
+                }
+
+                pc ++;
+                strncpy(input_data[address], acc_string, 8);
+            } else if(strncmp(input, op[1], 3) == 0) {
+                int address = (input[3]-'0') * 16 + (input[4]-'0') * 8 + (input[5]-'0') * 4
+                              + (input[6]-'0') * 2 + (input[7]-'0') * 1;
+                pc ++;
+
+                acc = 0;
+                int d = 128;
+                for(int i=0;i<8;i++) {
+                    acc += (input_data[address][i] - '0') * d;
+                    d /= 2;
+                }
+            } else if(strncmp(input, op[2], 3) == 0) {
+                int address = (input[3]-'0') * 16 + (input[4]-'0') * 8 + (input[5]-'0') * 4
+                              + (input[6]-'0') * 2 + (input[7]-'0') * 1;
+
+                pc++;
+                if(acc == 0) {
+                    pc = address;
+                }
+            } else if(strncmp(input, op[3], 3) == 0){
+                pc++;
+            } else if(strncmp(input, op[4], 3) == 0) {
+                pc++;
+                acc--;
+            } else if(strncmp(input, op[5], 3) == 0) {
+                pc++;
+                acc++;
+            } else if(strncmp(input, op[6], 3) == 0) {
+                int address = (input[3]-'0') * 16 + (input[4]-'0') * 8 + (input[5]-'0') * 4
+                              + (input[6]-'0') * 2 + (input[7]-'0') * 1;
+                pc = address;
+            } else if(strncmp(input, op[7], 3) == 0) {
+                break;
+            }
+
+            if(pc == 32) {
+                pc = 0;
+            }
+
+            if(pc < 0) {
+                pc += 32;
+            }
+
+            if(acc == 256) {
+                acc = 0;
+            }
+
+            if(acc < 0) {
+                acc += 256;
+            }
+        }
+
+        int d = 128;
+        for(int i=0;i<8;i++) {
+            cout << acc % (d * 2) / d;
+            d /= 2;
+        }
+        cout << '\n';
     }
 
-    simulate(0, 0, 0, 0, 0);
-    cout << -1;
+
 
     return 0;
 }
