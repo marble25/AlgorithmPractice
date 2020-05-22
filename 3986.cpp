@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 5. 22..
+//
+
 // Stack을 이용한 간단한 문제
 
 #include <iostream>
