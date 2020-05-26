@@ -1,3 +1,11 @@
+// 상당히 난이도가 있었다.
+// 어쩌면 쉽게 풀 수도 있었을 텐데...
+// 더 깊게 생각할 수 있었으면 좋겠다.
+
+//
+// Created by marble on 20. 5. 27..
+//
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
