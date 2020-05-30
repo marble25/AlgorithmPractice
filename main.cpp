@@ -1,6 +1,5 @@
 // 벨만 포드로 풀어보았는데
-// 단순 Distance 기반 BFS가 더 빠른 것 같다.
-// 성능 개선이 필요하다.
+// 단순 Distance 기반 BFS가 더 빠르다.
 
 #include <iostream>
 #include <cmath>
@@ -15,9 +14,10 @@
 using namespace std;
 
 int n, m;
-int linked[505][505] = {0};
+vector<pair<int, int>> linked[505];
 
 long long dis[505];
+int cnt[505] = {0};
 
 int main() {
     cin.tie(NULL);
@@ -26,42 +26,33 @@ int main() {
 
     cin >> n >> m;
 
-    for(int i=1;i<=n;i++) {
-        for(int j=1;j<=n;j++) {
-            linked[i][j] = INT32_MAX;
-        }
-    }
-
     for(int i=0;i<m;i++) {
         int x, y, z;
         cin >> x >> y >> z;
-        linked[x][y] = min(linked[x][y], z);
+        linked[x].push_back({y, z});
     }
+    fill(dis, dis+505, INT32_MAX); // distance 초기화
 
-    fill(dis, dis+505, INT32_MAX);
+    queue<int> q;
+
+    q.push(1);
     dis[1] = 0;
 
-    for(int i=0;i<n-1;i++) {
-        for(int from=1;from<=n;from++) {
-            for(int to=1;to<=n;to++) {
-                if(linked[from][to] == INT32_MAX) continue;
-                if(dis[from] == INT32_MAX) continue;
-                long long d = dis[from] + linked[from][to];
-                if(d < dis[to]) {
-                    dis[to] = d;
-                }
-            }
+    while(!q.empty()) {
+        int start = q.front();
+        if(cnt[start] >= n) { // 무한 루프를 막기 위해 어떤 정점을 n번 이상 방문했다면 끝냄
+            cout << -1;
+            return 0;
         }
-    }
+        q.pop();
 
-    for(int from=1;from<=n;from++) {
-        for(int to=1;to<=n;to++) {
-            if(linked[from][to] == INT32_MAX) continue;
-            if(dis[from] == INT32_MAX) continue;
-            long long d = dis[from] + linked[from][to];
-            if(d < dis[to]) {
-                cout << -1;
-                return 0;
+        for(auto& it:linked[start]) {
+            int next = it.first;
+            long long d = it.second;
+            if(dis[next] > dis[start] + d) { // 더 작은 값으로 방문할 수 있다면
+                dis[next] = dis[start] + d;
+                q.push(next);
+                cnt[next] = cnt[start] + 1; // 이전 정점에 1을 더한 값을 next 정점에 저장
             }
         }
     }
