@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 6. 5..
+//
+
 // 위상정렬을 이용해서 간단하게 풀이한 문제
 
 #include <iostream>
