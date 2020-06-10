@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 6. 10..
+//
+
 // 간단하게 맞춘 문제
 
 #include <iostream>
