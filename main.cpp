@@ -1,8 +1,3 @@
-// 문제가 어이가 없다...
-// 오르막길이 가중치 1인 것처럼 해놓더니...
-// 내리막길이 가중치 1이다...
-// 알고리즘 자체는 Kruskal로 쉽게 풀었다.
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -15,20 +10,11 @@
 #include <string.h>
 using namespace std;
 
-int n, m;
-vector<pair<int, pair<int, int>>> linked;
+int n;
+vector<pair<int, int>> assign;
+int parent[200005] = {0};
 
-int parent[1005] = {0};
-int rnk[1005] = {0};
-
-void init() {
-    for(int i=0;i<=n;i++) {
-        parent[i] = i;
-        rnk[i] = 1;
-    }
-}
-
-int root(int x) {
+int find_root(int x) {
     int y = parent[x];
     while(y != parent[y]) {
         y = parent[y];
@@ -37,63 +23,36 @@ int root(int x) {
     return y;
 }
 
-int merge(int x, int y) {
-    x = root(x);
-    y = root(y);
-
-    if(x == y) return 0;
-    else {
-        if(rnk[x] < rnk[y]) {
-            parent[x] = y;
-        } else {
-            parent[y] = x;
-        }
-
-        if(rnk[x] == rnk[y]) {
-            rnk[x] ++;
-        }
-        return 1;
-    }
-}
-
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> n >> m;
-    int min_cost=0, max_cost=0;
-    for(int i=0;i<=m;i++) {
-        int x, y, z;
-        cin >> x >> y >> z;
-        z = 1-z;
-        if(i == 0) {
-            min_cost += z;
-            max_cost += z;
-            continue;
-        }
-        linked.push_back({z, {x, y}});
+    cin >> n;
+    for(int i=0;i<n;i++) {
+        int x, y;
+        cin >> x >> y;
+        assign.push_back({y, x});
     }
-    sort(linked.begin(), linked.end());
+    sort(assign.begin(), assign.end(), greater<>());
 
-    init();
-    for(int i=0;i<m;i++) {
-        int z = linked[i].first, x = linked[i].second.first, y = linked[i].second.second;
-        if(merge(x, y) == 1) {
-            min_cost += z;
-        }
+    for(int i=1;i<=n;i++) {
+        parent[i] = i;
     }
 
-    init();
-    for(int i=m-1;i>=0;i--) {
-        int z = linked[i].first, x = linked[i].second.first, y = linked[i].second.second;
-        if(merge(x, y) == 1) {
-            max_cost += z;
+    int ans = 0;
+
+    for(auto &it:assign) {
+        int cup = it.first, dead = it.second;
+
+        int root = find_root(dead);
+        if(root != 0) {
+            ans += cup;
+            parent[root] = find_root(root-1);
         }
     }
 
-    cout << max_cost * max_cost - min_cost * min_cost;
-
+    cout << ans;
 
     return 0;
 }
