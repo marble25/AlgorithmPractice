@@ -1,6 +1,3 @@
-// 굉장히 구현 조건이 귀찮은 문제
-// 어려운 문제는 아니지만, 생각할 부분이 많았다...
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -13,54 +10,41 @@
 #include <string.h>
 using namespace std;
 
-int n;
-int sum[3] = {0};
-int ans[3] = {0};
+int n, m;
+int arr[10005] = {0};
 
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> n;
-    int x;
+    cin >> n >> m;
     for(int i=0;i<n;i++) {
-        for(int j=0;j<3;j++) {
-            cin >> x;
-            sum[j] += x*x; // 제곱을 더해줌으로써 unique 하게 구별할 수 있도록 했다.
-            ans[j] += x;
-        }
+        cin >> arr[i];
     }
 
-    int sel = 0, re = 0;
-    if(sum[0] == sum[1] && sum[1] == sum[2]) {
-        sel = 0;
-        re = ans[0];
-    } else if(sum[0] == sum[1] && sum[0] > sum[2]) {
-        sel = 0;
-        re = ans[0];
-    } else if(sum[0] == sum[2] && sum[0] > sum[1]) {
-        sel = 0;
-        re = ans[0];
-    } else if(sum[2] == sum[1] && sum[2] > sum[0]) {
-        sel = 0;
-        re = ans[2];
+    sort(arr, arr+n);
+    int start = 0, end = n-1;
+    if(abs(arr[0]) < abs(arr[n-1])) {
+        end -= n%m;
     } else {
-        if(sum[0] < sum[1]) {
-            sel = 2;
-            re = ans[1];
-        } else {
-            sel = 1;
-            re = ans[0];
-        }
-
-        if(sum[sel-1] < sum[2]) {
-            sel = 3;
-            re = ans[2];
-        }
+        start += n%m;
     }
 
-    cout << sel << " " << re;
+    int p = start;
+    int dis = 0;
+    while(p <= end && arr[p] < 0) {
+        dis += abs(arr[p]) * 2;
+        p += m;
+    }
+
+    p = end;
+    while(p >= start && arr[p] > 0) {
+        dis += abs(arr[p]) * 2;
+        p -= m;
+    }
+
+    cout << dis;
 
     return 0;
 }
