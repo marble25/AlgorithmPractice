@@ -1,6 +1,3 @@
-// 만만하게 보다가 여러번 틀렸던 문제
-// long long의 범위를 넘어갈 줄은 몰랐다.
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -13,41 +10,42 @@
 #include <string.h>
 using namespace std;
 
-int disk;
-
-void hanoi(int n, int x, int y, int z) { // 하노이 경로를 출력해주는 함수
-    if(n == 1) {
-        cout << x << " " << z << "\n";
-        return;
-    }
-    hanoi(n-1, x, z, y);
-    cout << x << " " << z << "\n";
-    hanoi(n-1, y, x, z);
-}
-
-string count_num(int n) { // 횟수를 string으로 바꿔주는 함수
-    string re;
-    long long a=0, b=0;
-    for (int i = 0; i < n; i++) {
-        b *= 2;
-        a = a * 2 + 1;
-        b += a / 1000000000000000000;
-        a %= 1000000000000000000;
-    }
-    re = (b == 0 ? to_string(a) : to_string(b) + to_string(a));
-    return re;
-}
+int n, w;
+int candy1[250000], candy2[250000];
+long long sum1[250005] = {0}, sum2[250005] = {0};
 
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> disk;
+    cin >> n >> w;
 
-    cout << count_num(disk) << "\n";
-    if(disk <= 20) // 20보다 작은 경우만 경로를 출력
-        hanoi(disk, 1, 2, 3);
+    int c1 = 0, c2 = 0;
+    for(int i=0;i<n;i++) {
+        int x, y;
+        cin >> x >> y;
+        if(x == 3) candy1[c1++] = y;
+        else candy2[c2++] = y;
+    }
+
+    sort(candy1, candy1+c1);
+    sort(candy2, candy2+c2);
+
+    for(int i=c1-1;i>=0;i--) {
+        sum1[c1-i] = sum1[c1-i-1] + candy1[i];
+    }
+
+    for(int i=c2-1;i>=0;i--) {
+        sum2[c2-i] = sum2[c2-i-1] + candy2[i];
+    }
+
+    long long ans = 0;
+    for(int i=0;i<=w/3;i++) {
+        int j = (w-i) / 5;
+        ans = max(ans, sum1[i] + sum2[j]);
+    }
+
 
     return 0;
 }
