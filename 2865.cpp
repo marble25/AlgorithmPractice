@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 6. 30..
+//
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -33,7 +37,7 @@ int main() {
     float sum = 0;
     for(auto &it:v) {
         if(k == 0) break;
-        if(check[it.second] == 0) {
+        if(check[it.second] == 0) { // 이미 뽑은 아이가 아니면 뽑기
             k--;
             check[it.second] = 1;
             sum += it.first;
