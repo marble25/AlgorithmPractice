@@ -10,38 +10,17 @@
 #include <string.h>
 using namespace std;
 
-int n, m, k;
-vector<pair<float, int>> v;
-int check[105] = {0};
+char p[105] = {0};
+int k;
 
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> n >> m >> k;
-    for(int i=0;i<n;i++) {
-        for(int j=0;j<m;j++) {
-            int x;
-            float y;
-            cin >> x >> y;
-            v.push_back({y, x});
-        }
-    }
-    sort(v.begin(), v.end(), greater<>());
+    cin >> p;
+    cin >> k;
 
-    float sum = 0;
-    for(auto &it:v) {
-        if(k == 0) break;
-        if(check[it.second] == 0) {
-            k--;
-            check[it.second] = 1;
-            sum += it.first;
-        }
-    }
 
-    cout << fixed;
-    cout.precision(1);
-    cout << sum;
     return 0;
 }
