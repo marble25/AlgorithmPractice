@@ -1,3 +1,10 @@
+//
+// Created by marble on 20. 7. 14..
+//
+
+// 간단한 문제이다.
+// 시간복잡도를 더 줄여봐야겠다.
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -33,10 +40,10 @@ int calc_score(int t) {
 
 void f(int stage) {
     if(stage == n) {
-        int sc1 = calc_score(0);
-        int sc2 = calc_score(1);
-        if(sc1 != 0 && sc2 != 0) {
-            ans = min(ans, abs(sc1-sc2));
+        int sc1 = calc_score(0); // 0 팀의 score 계산
+        int sc2 = calc_score(1); // 1 팀의 score 계산
+        if(sc1 != 0 && sc2 != 0) { // 둘다 0이 아니면
+            ans = min(ans, abs(sc1-sc2)); // 답에 포함시킴
         }
         return;
     }

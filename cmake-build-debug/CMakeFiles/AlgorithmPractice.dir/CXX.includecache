@@ -9,4 +9,22 @@
 /home/marble/CLionProjects/AlgorithmPractice/main.cpp
 iostream
 -
+cmath
+-
+algorithm
+-
+functional
+-
+stack
+-
+vector
+-
+queue
+-
+map
+-
+string
+-
+string.h
+-
 
