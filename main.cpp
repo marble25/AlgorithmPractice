@@ -11,41 +11,10 @@
 using namespace std;
 
 int n;
-int s[20][20] = {0};
-int team[20] = {0};
-int ans = 987654321;
-
-int calc_score(int t) {
-    int start = 0;
-    int score = 0;
-    while(start < n) {
-        if(team[start] == t) {
-            for(int i=0;i<n;i++) {
-                if(team[i] == t) {
-                    score += s[start][i];
-                }
-            }
-        }
-        start++;
-    }
-    return score;
-}
-
-void f(int stage) {
-    if(stage == n) {
-        int sc1 = calc_score(0);
-        int sc2 = calc_score(1);
-        if(sc1 != 0 && sc2 != 0) {
-            ans = min(ans, abs(sc1-sc2));
-        }
-        return;
-    }
-
-    team[stage] = 1;
-    f(stage+1);
-    team[stage] = 0;
-    f(stage+1);
-}
+int t[10005] = {0};
+int start[10005] = {0};
+int prior[10005] = {0};
+vector<int> linked[10005];
 
 int main() {
     cin.tie(NULL);
@@ -53,14 +22,45 @@ int main() {
     ios_base::sync_with_stdio(false);
 
     cin >> n;
-    for(int i=0;i<n;i++) {
-        for(int j=0;j<n;j++) {
-            cin >> s[i][j];
+    for(int i=1;i<=n;i++) {
+        cin >> t[i];
+
+        int n_job;
+        cin >> n_job;
+
+        prior[i] = n_job;
+        for(int j=0;j<n_job;j++) {
+            int x;
+            cin >> x;
+            linked[x].push_back(i);
         }
     }
 
-    f(0);
-    cout << ans;
+    queue<int> q;
+
+    for(int i=1;i<=n;i++) {
+        if(prior[i] == 0) {
+            q.push(i);
+        }
+    }
+
+    int ans = 0;
+    while(!q.empty()) {
+        int x = q.front();
+        q.pop();
+
+        for(auto &it:linked[x]) {
+            prior[it]--;
+            start[it] = max(start[it], start[x] + t[x]);
+            if(prior[it] == 0) {
+                q.push(it);
+            }
+        }
+    }
+
+    for(int i=1;i<=n;i++) {
+        ans = max(ans, start[i] + t[i]);
+    }
 
     return 0;
 }
