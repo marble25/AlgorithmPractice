@@ -1,5 +1,3 @@
-// 간단한 문제
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -12,31 +10,27 @@
 #include <string.h>
 using namespace std;
 
-char s[105];
+int n;
 
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> s;
+    cin >> n;
+    int cnt = 0;
+    int cache[1005] = {0};
+    int start = 0, end = 1;
 
-    int sz = strlen(s);
+    cache[1] = 0;
+    cache[2] = 1;
+    for(int i=3;i<=n;i++) {
+        if(i%2 == 1) {
+            cache[i] = cache[i-1] * 2 - 1;
+        } else {
+            cache[i] = cache[i-1] * 2 + 1;
+        }
 
-    int num = 0; // 처음 값을 설정
-    if(sz % 3 == 1) {
-        num = s[0] - '0';
-    } else if(sz % 3 == 2) {
-        num = (s[0] - '0') * 2 + (s[1] - '0');
-    }
-
-    if(num != 0) { // 처음 값이 있으면 출력
-        cout << num;
-    }
-
-    for(int i=sz%3;i<sz;i+=3) { // 3개 단위로 끊어서 출력
-        num = (s[i] - '0') * 4 + (s[i+1] - '0') * 2 + (s[i+2] - '0');
-        cout << num;
     }
 
     return 0;
