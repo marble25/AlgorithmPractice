@@ -1,6 +1,3 @@
-// 오랜만에 풀어서 그런지 감 잃은듯 하다.
-// 알고리즘도 열심히 공부해야 하는데...
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -14,27 +11,27 @@
 using namespace std;
 
 int n;
-int t[10005] = {0};
 
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    int ans = 0;
-
     cin >> n;
-    for(int i=1;i<=n;i++) {
-        int l, n_job;
-        cin >> l >> n_job;
-        for(int j=0;j<n_job;j++) {
-            int x;
-            cin >> x;
-            t[i] = max(t[i], t[x]);
+    int cnt = 0;
+    int cache[1005] = {0};
+    int start = 0, end = 1;
+
+    cache[1] = 0;
+    cache[2] = 1;
+    for(int i=3;i<=n;i++) {
+        if(i%2 == 1) {
+            cache[i] = cache[i-1] * 2 - 1;
+        } else {
+            cache[i] = cache[i-1] * 2 + 1;
         }
-        t[i] += l;
-        ans = max(t[i], ans);
+
     }
-    cout << ans;
+
     return 0;
 }
