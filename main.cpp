@@ -1,3 +1,5 @@
+// 오랜만에 BFS를 이용한 간단한 문제를 풀었다.
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -32,9 +34,9 @@ void bfs(int x, int y) {
 
         for(int i=0;i<4;i++) {
             int cx=x+dx[i], cy=y+dy[i];
-            if(cx < 1 || cy < 1 || cx > n || cy > m) continue;
-            if(arr[cx][cy] == 0) continue;
-            if(visited[cx][cy] == 1) continue;
+            if(cx < 1 || cy < 1 || cx > n || cy > m) continue; // 범위를 넘어가면 continue
+            if(arr[cx][cy] == 0) continue; // 그림이 아니면 continue
+            if(visited[cx][cy] == 1) continue; // 이미 방문했으면 continue
             visited[cx][cy] = 1;
             q.push({cx, cy});
             cnt++;
