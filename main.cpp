@@ -1,7 +1,3 @@
-//
-// Created by marble on 20. 7. 29..
-//
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -15,84 +11,62 @@
 #include <string.h>
 using namespace std;
 
-int n, m;
-int arr[1005][1005] = {0};
-int visited[1005][1005] = {0};
-int group[1000005] = {0};
-queue<pair<int, int>> q;
-int cnt = 2;
+int n;
+vector<int> linked[55];
+int parent[55] = {0};
+int child[55] = {0};
+int visited[55] = {0};
 
-int dx[4] = {-1, 1, 0, 0};
-int dy[4] = {0, 0, -1, 1};
+void call() {
+    queue<int> q;
 
-int ans = 0;
-
-void bfs(int start_x, int start_y) {
-    int sz = 1;
-    q.push({start_x, start_y});
-    visited[start_x][start_y] = cnt;
+    q.push(0);
+    visited[0] = 1;
 
     while(!q.empty()) {
-        int x = q.front().first, y = q.front().second;
+        int x = q.front();
         q.pop();
 
-        for(int i=0;i<4;i++) {
-            int cx = x + dx[i], cy = y + dy[i];
-            if(cx < 1 || cy < 1 || cx > n || cy > m) continue;
-            if(arr[cx][cy] == 0) continue;
-            if(visited[cx][cy] == cnt) continue;
+        int current;
+        int mx = -1;
+        for(auto &it:linked[x]) {
+            if(visited[it] == 0 && mx < child[it]) {
+                mx = linked[it].size();
+                current = it;
+            }
+        }
 
-            visited[cx][cy] = cnt;
-            q.push({cx, cy});
-            sz++;
+        if(mx != -1) {
+            visited[current] = visited[x] + 1;
+            child[x]--;
+            q.push(x);
+            q.push(current);
         }
     }
-    group[cnt++] = sz;
-    ans = max(ans, sz+1);
 }
-
 
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> n >> m;
-    for(int i=1;i<=n;i++) {
-        for(int j=1;j<=m;j++) {
-            cin >> arr[i][j];
+    cin >> n;
+    for(int i=0;i<n;i++) {
+        cin >> parent[i];
+        if(parent[i] != -1) {
+            child[parent[i]]++;
+            linked[parent[i]].push_back(i);
         }
     }
 
-    for(int i=1;i<=n;i++) {
-        for(int j=1;j<=m;j++) {
-            if(arr[i][j] == 1 && visited[i][j] == 0) {
-                bfs(i, j);
-            }
-        }
-    }
+    call();
 
-    for(int i=1;i<=n;i++) {
-        for(int j=1;j<=m;j++) {
-            if(arr[i][j] == 1) continue;
-
-            set<int> s;
-            for(int k=0;k<4;k++) {
-                int cx = i + dx[k], cy = j + dy[k];
-                if(cx < 1 || cy < 1 || cx > n || cy > m) continue;
-                if(arr[cx][cy] == 0) continue;
-                s.insert(visited[cx][cy]);
-            }
-
-            int sz = 1;
-            for(auto &it:s) {
-                sz += group[it];
-            }
-
-            ans = max(sz, ans);
-        }
+    int ans = 0;
+    for(int i=0;i<n;i++) {
+        ans = max(ans, visited[i]);
     }
 
     cout << ans;
+
     return 0;
 }
