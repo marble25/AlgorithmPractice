@@ -12,9 +12,10 @@
 using namespace std;
 
 int n;
-int arr[1005][3] = {0};
-
-int cache[1005][3] = {0};
+int t[505] = {0};
+vector<int> linked[505];
+int order[505] = {0};
+int visited[505] = {0};
 
 int main() {
     cin.tie(NULL);
@@ -23,41 +24,40 @@ int main() {
 
     cin >> n;
     for(int i=1;i<=n;i++) {
-        for(int j=0;j<3;j++) {
-            cin >> arr[i][j];
+        cin >> t[i];
+        while(true) {
+            int x;
+            cin >> x;
+            if(x == -1) break;
+            linked[x].push_back(i);
+            order[i]++;
         }
     }
-    for(int j=0;j<3;j++) {
-        cache[1][j] = arr[1][j];
+
+    queue<int> q;
+
+    for(int i=1;i<=n;i++) {
+        if(order[i] == 0) q.push(i);
     }
 
-    int ans = 999999999;
+    while(!q.empty()) {
+        int x = q.front();
+        q.pop();
 
-    for(int k=0;k<3;k++) {
-        for(int j=0;j<3;j++) {
-            if(j == k) {
-                cache[2][j] = 999999999;
-            } else {
-                cache[2][j] = arr[2][j] + cache[1][k];
+        for(int i=0;i<linked[x].size();i++) {
+            int it=linked[x][i];
+            order[it]--;
+            visited[it] = max(visited[it], visited[x] + t[x]);
+            if(order[it] == 0) {
+                q.push(it);
+
             }
         }
-        for(int i=3;i<=n;i++) {
-            cache[i][0] = arr[i][0] + min(cache[i-1][1], cache[i-1][2]);
-            cache[i][1] = arr[i][1] + min(cache[i-1][0], cache[i-1][2]);
-            cache[i][2] = arr[i][2] + min(cache[i-1][1], cache[i-1][0]);
-        }
-
-        if(k == 0) {
-            ans = min(ans, min(cache[n][1], cache[n][2]));
-        } else if(k == 1) {
-            ans = min(ans, min(cache[n][0], cache[n][2]));
-        } else if(k == 2) {
-            ans = min(ans, min(cache[n][0], cache[n][1]));
-        }
-
     }
 
-    cout << ans;
+    for(int i=1;i<=n;i++) {
+        cout << visited[i] + t[i] << '\n';
+    }
 
     return 0;
 }
