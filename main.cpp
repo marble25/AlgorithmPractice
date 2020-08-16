@@ -1,7 +1,3 @@
-// 쉽게 보고 얕보다가 생각보다 안풀린 문제
-// Line Sweeping의 개념을 다시 다잡았다
-// 정방향으로 가는 사람은 고려하지 않고 역방향만 라인 스위핑을 이용해서 합해준다
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -15,8 +11,12 @@
 #include <string.h>
 using namespace std;
 
-long long n, m;
-vector<pair<long long, long long>> people;
+int n, m;
+vector<pair<int, int>> linked[1005];
+int parent[1005] = {0};
+
+
+int st, en;
 
 int main() {
     cin.tie(NULL);
@@ -24,38 +24,57 @@ int main() {
     ios_base::sync_with_stdio(false);
 
     cin >> n >> m;
-    for(int i=0;i<n;i++) {
-        long long x, y;
-        cin >> x >> y;
-        if(x > y) {
-            people.push_back({y, x});
+    for(int i=0;i<m;i++) {
+        int x, y, c;
+        cin >> x >> y >> c;
+        linked[x].push_back({y, c});
+    }
+    cin >> st >> en;
+
+    int dis[1005];
+
+    memset(parent, -1, sizeof(parent));
+    fill(dis, dis+1005, 987654321);
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> q;
+
+    dis[st] = 0;
+    q.push({0, st});
+
+    while(!q.empty()) {
+        int cost = q.top().first, x = q.top().second;
+        q.pop();
+
+        if(dis[x] < cost) continue;
+
+        for(int i=0;i<linked[x].size();i++) {
+            int next = linked[x][i].first;
+            int next_cost = linked[x][i].second + cost;
+
+            if(dis[next] > next_cost) {
+                dis[next] = next_cost;
+
+                parent[next] = x;
+                q.push({next_cost, next});
+            }
         }
     }
-    if(people.empty()) {
-        cout << m;
-        return 0;
+
+    stack<int> stk;
+
+    int x = en;
+    while(x != -1) {
+        stk.push(x);
+        x = parent[x];
     }
 
-    sort(people.begin(), people.end());
+    cout << dis[en] << '\n';
+    cout << stk.size() << '\n';
 
-    long long total = 0;
-    long long start = people[0].first;
-    long long end = people[0].second;
-
-    int sz = people.size();
-    for(int i=1;i<sz;i++) {
-        if(people[i].first > end) { // 겹치는 부분이 없는 경우
-            total += (end - start); // total에 더해줌
-            start = people[i].first; // 새로 시작
-            end = people[i].second;
-        } else if(people[i].second > end) { // 겹치면서 구간이 더 길어지는 경우(end가 범위 바깥)
-            end = people[i].second;
-        }
+    while(!stk.empty()) {
+        cout << stk.top() << ' ';
+        stk.pop();
     }
-
-    total += (end - start); // 더해주지 않은 마지막 값을 더해줌
-
-    cout << m + 2 * total; // 역방향 구간만큼 왔다 갔다 한 것을 m에다 더해줌
 
     return 0;
 }
