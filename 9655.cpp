@@ -1,3 +1,9 @@
+//
+// Created by marble on 20. 8. 24..
+//
+
+// 간단하게 풀 수 있던 문제
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
