@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 8. 27..
+//
+
 // 백트래킹으로 맞추기는 했으나 시간이 생각보다 많이 나온다.
 // 더 짧은 시간으로 풀어봐야겠다.
 
@@ -40,8 +44,8 @@ bool find_answer(int x, int y) {
         int num = i;
 
         if(row_checked[x][num] == 1 ||
-            col_checked[y][num] == 1 ||
-            box_checked[box_idx][num] == 1) { // 이미 사용된 번호는 넘어감
+           col_checked[y][num] == 1 ||
+           box_checked[box_idx][num] == 1) { // 이미 사용된 번호는 넘어감
             continue;
         }
 
