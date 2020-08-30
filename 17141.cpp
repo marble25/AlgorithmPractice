@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 8. 30..
+//
+
 // 한번에 풀기는 했지만 생각보다 고생고생했던 문제
 // combination logic을 구현하는데 오래 걸렸던 문제
 // permutation을 이용한 combination은 잘 알아둬야겠다.
