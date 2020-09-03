@@ -1,3 +1,10 @@
+//
+// Created by marble on 20. 9. 2..
+//
+
+// 처음으로 질문도 올려봤던 문제이다
+// 문제 풀이는 대체로 맞았지만 뒤에서부터 시작된다는 사실을 깊게 보지 않고 풀어서 아쉬웠다
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
