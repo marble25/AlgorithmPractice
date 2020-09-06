@@ -1,5 +1,9 @@
+//
+// Created by marble on 20. 9. 6..
+//
+
 // 처음에는 조금 난해했는데 모든 선거구 조합에 대해서 bfs를 통해 연결성 확인하면 풀리는 문제이다.
-// 시간 초과 생각해서 복잡한 알고리즘을 쓰려 했는데 생각보다 짧게 나온다. 
+// 시간 초과 생각해서 복잡한 알고리즘을 쓰려 했는데 생각보다 짧게 나온다.
 
 #include <iostream>
 #include <cmath>
@@ -18,9 +22,9 @@ int n;
 int people[15] = {0};
 vector<int> linked[15];
 
-int total = 0;
-int added = 0;
-int group[15] = {0};
+int total = 0; // 전체 총합
+int added = 0; // 그룹 1의 총합
+int group[15] = {0}; // 그룹 1이면 1, 그룹 2면 0
 int ans = 987654321;
 
 bool bfs(int team, int x, int len) { // bfs로 연결 여부 확인
@@ -68,7 +72,7 @@ void select(int x, int len) { // 그룹을 선택하는 부분
     check(len);
     for(int i=x+1;i<=n;i++) { // 하나씩 포함시키거나 빼고 진행
         group[i] = 1;
-        added += people[i];
+        added += people[i]; // 그룹 1의 총합
         select(i, len+1);
         group[i] = 0;
         added -= people[i];
