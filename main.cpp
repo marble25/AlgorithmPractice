@@ -1,6 +1,3 @@
-// 조건이 꽤 까다로운 문제
-// BFS로 풀 거라고는 상상도 못하다가 안풀려서 여러 질문들을 참고해서 푼 문제
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -14,52 +11,64 @@
 #include <string.h>
 using namespace std;
 
-string n;
-int k;
-int visited[1000005] = {0};
-queue<pair<int, string>> q;
+pair<int, int> point[5];
+pair<int, int> target[5];
+int cnt = 0;
+int checked[5][5] = {0};
+int ans = 987654321;
 
-int ans = -1;
+char mp[6][6];
+
+
+void calc_dist() {
+    int temp = 0;
+    for(int i=0;i<cnt;i++) {
+        temp += abs(target[i].first - point[i].first) + abs(target[i].second - point[i].second);
+    }
+
+
+}
+
+void select(int stage) {
+    if(stage == cnt) {
+        calc_dist();
+        return;
+    }
+
+    for(int i=0;i<5;i++) {
+        for(int j=0;j<5;j++) {
+            if(checked[i][j] != 0) continue;
+            target[stage] = {i, j};
+            checked[i][j] = stage;
+            select(stage+1);
+            checked[i][j] = 0;
+        }
+    }
+}
 
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> n;
-    cin >> k;
+    for(int i=0;i<5;i++) {
+        cin >> mp[i];
+    }
 
-    q.push({1, n});
-    visited[stoi(n)] = 1;
-
-    int sz = n.length();
-
-    while(!q.empty()) { // BFS 이용
-        int dis = q.front().first; // 거리
-        string s = q.front().second;
-        int org_num = stoi(s);
-        q.pop();
-
-        if(dis > k+1) break; // 거리가 k+2부터는 필요 없음
-        if(dis == k+1) ans = max(ans, org_num); // 거리가 k+1인 경우 ans 업데이트
-
-        for(int i=0;i<sz-1;i++) {
-            for(int j=i+1;j<sz;j++) {
-                if(i == 0 && s[j] == '0') continue; // 앞자리에 0이 들어갈 수 없음
-
-                swap(s[i], s[j]); // i와 j를 바꿈
-                int num = stoi(s);
-
-                if(visited[num] != dis + 1) { // 같은 단계를 추가하지 않도록 설정
-                    q.push({dis+1, s});
-                    visited[num] = dis + 1;
-                }
-
-                swap(s[i], s[j]); // 원상복구
+    for(int j=0;j<5;j++) {
+        for(int i=0;i<5;i++) {
+            if(mp[i][j] == '*') {
+                point[cnt++] = {i, j};
             }
         }
     }
 
-    cout << ans;
+    if(cnt == 1) {
+        cout << 0;
+        return 0;
+    }
+
+
+
     return 0;
 }
