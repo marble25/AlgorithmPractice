@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 9. 18..
+//
+
 // 이렇게까지 안해도 시간 초과는 안 나올거라고 알고 있었지만, 최대한 시간을 줄여서 풀고 싶었다.
 // 단순히 Brute Force로도 풀 수 있는 문제
 
@@ -92,8 +96,8 @@ int main() {
         for(int j=1;j<y.size();j++) {
             for(int k=1;k<z.size();k++) {
                 dp[i][j][k] += dp[i-1][j][k] + dp[i][j-1][k] + dp[i][j][k-1]
-                        - dp[i-1][j-1][k] - dp[i][j-1][k-1] - dp[i-1][j][k-1]
-                        + dp[i-1][j-1][k-1];
+                               - dp[i-1][j-1][k] - dp[i][j-1][k-1] - dp[i-1][j][k-1]
+                               + dp[i-1][j-1][k-1];
             }
         }
     }
