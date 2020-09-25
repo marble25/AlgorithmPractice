@@ -12,7 +12,10 @@
 using namespace std;
 
 int n;
-int arr[100005];
+int arr[10][10] = {0};
+int ans = 987654321;
+
+vector<int> v;
 
 int main() {
     cin.tie(NULL);
@@ -21,25 +24,33 @@ int main() {
 
     cin >> n;
     for(int i=0;i<n;i++) {
-        cin >> arr[i];
-    }
-
-    int ans = 1;
-    int temp1 = 1, temp2 = 1;
-
-    for(int i=0;i<n-1;i++) {
-        if(arr[i] < arr[i+1]) {
-            temp1 += 1;
-            temp2 = 1;
-        } else if(arr[i] > arr[i+1]) {
-            temp2 += 1;
-            temp1 = 1;
-        } else {
-            temp1 += 1;
-            temp2 += 1;
+        for(int j=0;j<n;j++) {
+            cin >> arr[i][j];
         }
-        ans = max(ans, max(temp1, temp2));
     }
+
+    for(int i=0;i<n;i++) {
+        v.push_back(i);
+    }
+
+    do {
+        int cost = arr[v[n-1]][v[0]];
+        if(cost == 0) continue;
+
+        bool flag = false;
+        for(int i=0;i<n-1;i++) {
+            int current_cost = arr[v[i]][v[i+1]];
+            if(current_cost == 0) {
+                flag = true;
+                break;
+            }
+
+            cost += current_cost;
+        }
+
+        if(flag) continue;
+        ans = min(ans, cost);
+    } while (next_permutation(v.begin(), v.end()));
 
     cout << ans;
 
