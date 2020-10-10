@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 10. 10..
+//
+
 // 너무 조건이 많아서 짜증났던 문제
 
 #include <iostream>
