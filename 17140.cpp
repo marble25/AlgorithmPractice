@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 10. 12..
+//
+
 // 뭔가 풀고나도 찝찝한 문제
 
 #include <iostream>
