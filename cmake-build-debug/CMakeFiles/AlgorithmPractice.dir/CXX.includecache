@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/marble/CLionProjects/AlgorithmPractice/main.cpp
+/home/marble/dev/AlgorithmPractice/main.cpp
 iostream
 -
 cmath

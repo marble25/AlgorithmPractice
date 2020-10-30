@@ -1,3 +1,9 @@
+//
+// Created by marble on 20. 10. 30..
+//
+
+// 복귀 기념으로 연습 문제 풀이
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>

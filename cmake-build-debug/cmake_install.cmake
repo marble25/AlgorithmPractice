@@ -1,4 +1,4 @@
-# Install script for directory: /home/marble/CLionProjects/AlgorithmPractice
+# Install script for directory: /home/marble/dev/AlgorithmPractice
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/marble/CLionProjects/AlgorithmPractice/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/marble/dev/AlgorithmPractice/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

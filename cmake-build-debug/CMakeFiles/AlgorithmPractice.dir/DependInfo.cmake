@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/marble/CLionProjects/AlgorithmPractice/main.cpp" "/home/marble/CLionProjects/AlgorithmPractice/cmake-build-debug/CMakeFiles/AlgorithmPractice.dir/main.cpp.o"
+  "/home/marble/dev/AlgorithmPractice/main.cpp" "/home/marble/dev/AlgorithmPractice/cmake-build-debug/CMakeFiles/AlgorithmPractice.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
