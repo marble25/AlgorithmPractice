@@ -1,3 +1,10 @@
+//
+// Created by marble on 20. 11. 1..
+//
+
+// stack에 추가해서 역순으로 출력해야 하는데, 정방향으로 출력해서 어이없이 틀린 문제
+// 항상 검토하는 습관을 들여야겠다.
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -19,7 +26,7 @@ queue<int> q;
 int visited[10005];
 
 void bfs(int x) {
-    while(!q.empty()) {
+    while(!q.empty()) { // 큐 초기화
         q.pop();
     }
 
@@ -30,12 +37,12 @@ void bfs(int x) {
         int x = q.front();
         q.pop();
 
-        int d = (x * 2) % 10000;
-        int s = (x - 1 + 10000) % 10000;
+        int d = (x * 2) % 10000; // 2배
+        int s = (x - 1 + 10000) % 10000; // -1
+        int l = (x / 1000) + (x % 1000) * 10; // 왼쪽 시프트
+        int r = (x / 10) + (x % 10) * 1000; // 오른쪽 시프트
 
-        int l = (x / 1000) + (x % 1000) * 10;
-        int r = (x / 10) + (x % 10) * 1000;
-
+        // 방문 안했으면, 부모 노드에 삽입하고, 방문 체크하고, 큐에 넣는다.
         if(!visited[d]) {
             parent[d] = {x, 'D'};
             visited[d] = 1;
@@ -60,7 +67,7 @@ void bfs(int x) {
             q.push(r);
         }
 
-        if(d == b || s == b || l == b || r == b) {
+        if(d == b || s == b || l == b || r == b) { // 목적지라면 리턴
             return;
         }
     }
@@ -80,7 +87,7 @@ int main() {
         bfs(a);
 
         stack<char> stk;
-        while(b != a) {
+        while(b != a) { // a가 될 때까지 부모를 타고 올라감 / 저장
             stk.push(parent[b].second);
             b = parent[b].first;
         }
