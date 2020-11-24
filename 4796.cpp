@@ -1,3 +1,9 @@
+//
+// Created by marble on 20. 11. 24..
+//
+
+// 간단한 그리디 문제
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -24,7 +30,7 @@ int main() {
             break;
         }
 
-        int ans = (v/p)*l + min(v%p, l);
+        int ans = (v/p)*l + min(v%p, l); // p일 중 l일 쓰고 p-l일 안쓰고를 반복하여 (v/p)*l일 쓰고, 나머지를 최대 l일 쓸 수 있다.
         cout << "Case " << i << ": " << ans << "\n";
     }
 
