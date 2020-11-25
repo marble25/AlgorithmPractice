@@ -20,9 +20,9 @@ using namespace std;
 int t;
 int f;
 map<string, int> mp;
-int parent[100005];
-int rk[100005];
-int sz[100005];
+int parent[200005];
+int rk[200005];
+int sz[200005];
 
 int find(int x) { // 조상을 찾는 함수
     int y = x;
