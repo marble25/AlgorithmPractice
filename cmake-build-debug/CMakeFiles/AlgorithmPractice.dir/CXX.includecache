@@ -21,8 +21,6 @@ vector
 -
 queue
 -
-map
--
 string
 -
 string.h
