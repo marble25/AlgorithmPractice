@@ -1,3 +1,9 @@
+//
+// Created by marble on 20. 11. 28..
+//
+
+// 문제를 잘못 읽어서 한번 틀린 문제
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -27,13 +33,13 @@ int main() {
     sort(v.begin(), v.end());
     priority_queue<int, vector<int>, greater<int>> pq;
 
-    pq.push(v[0].second);
+    pq.push(v[0].second); // 첫 강좌의 끝나는 시간을 넣음
 
     for(int i=1;i<n;i++) {
-        if(pq.top() <= v[i].first) {
+        if(pq.top() <= v[i].first) { // 끝난 강좌가 있으면 강의실 비움
             pq.pop();
         }
-        pq.push(v[i].second);
+        pq.push(v[i].second); // 강의실 채움
     }
 
     cout << pq.size();
