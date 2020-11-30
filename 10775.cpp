@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 11. 30..
+//
+
 // 단순 greedy 방식으로 생각을 해보다가 도저히 모르겠어서 방법을 참고한 문제
 
 #include <iostream>
