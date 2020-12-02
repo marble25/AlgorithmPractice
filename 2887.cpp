@@ -1,3 +1,10 @@
+//
+// Created by marble on 20. 12. 2..
+//
+
+// MST를 오랜만에 풀어봐서 감회가 새롭다.
+// 크루스칼 및 프림 알고리즘을 계속 연습해야겠다.
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -17,9 +24,10 @@ typedef struct Point {
 } point;
 
 typedef struct Edge {
-    point p1;
-    point p2;
+    int n1;
+    int n2;
     int weight;
+    bool operator < (const Edge& other) const { return weight < other.weight; }
 } edge;
 
 int n;
@@ -48,19 +56,11 @@ bool compZ(point p1, point p2) {
     return p1.z < p2.z;
 }
 
-int distance(point p1, point p2) {
-    int x_dis = abs(p1.x - p2.x);
-    int y_dis = abs(p1.y - p2.y);
-    int z_dis = abs(p1.z - p2.z);
-
-    return min(x_dis, min(y_dis, z_dis));
-}
+// 크루스칼은 union & find 방식으로 푸는 것이다.
 
 int find(int node) {
-    int cur = parent[node];
-    int past = node;
-    while(cur != past) {
-        past = cur;
+    int cur = node;
+    while(cur != parent[cur]) {
         cur = parent[cur];
     }
 
@@ -68,8 +68,8 @@ int find(int node) {
 }
 
 void merge(edge e1) {
-    int num1 = find(e1.p1.num);
-    int num2 = find(e1.p2.num);
+    int num1 = find(e1.n1);
+    int num2 = find(e1.n2);
 
     if(num1 != num2) {
         if(rnk[num1] < rnk[num2]) {
@@ -80,7 +80,6 @@ void merge(edge e1) {
             parent[num1] = num2;
             rnk[num2]++;
         }
-
         ans += e1.weight;
         cnt ++;
     }
@@ -99,37 +98,35 @@ int main() {
         p.push_back({i, x, y, z});
     }
 
+    // x, y, z좌표로 정렬해서 인접한 정점을 edge로 추가(이 것보다 더 가까운 정점은 존재하지 않음)
+
     sort(p.begin(), p.end(), compX);
 
     for(int i=0;i<n-1;i++) {
-        int dis = distance(p[i], p[i+1]);
-        e.push_back({p[i], p[i+1], dis});
+        e.push_back({p[i].num, p[i+1].num, abs(p[i].x - p[i+1].x)});
     }
 
     sort(p.begin(), p.end(), compY);
 
     for(int i=0;i<n-1;i++) {
-        int dis = distance(p[i], p[i+1]);
-        e.push_back({p[i], p[i+1], dis});
+        e.push_back({p[i].num, p[i+1].num, abs(p[i].y - p[i+1].y)});
     }
 
     sort(p.begin(), p.end(), compZ);
 
     for(int i=0;i<n-1;i++) {
-        int dis = distance(p[i], p[i+1]);
-        e.push_back({p[i], p[i+1], dis});
+        e.push_back({p[i].num, p[i+1].num, abs(p[i].z - p[i+1].z)});
     }
 
-    sort(e.begin(), e.end(), compDis);
+    sort(e.begin(), e.end(), compDis); // distance를 기준으로 정렬
 
     for(int i=0;i<n;i++) {
         parent[i] = i;
-        rnk[i] = 1;
     }
 
-    for(int i=0;i<e.size();i++) {
+    for(int i=0;;i++) { // 짧은 것부터 추가 가능하면 추가
         merge(e[i]);
-        if(cnt == n) break;
+        if(cnt == n-1) break;
     }
 
     cout << ans;
