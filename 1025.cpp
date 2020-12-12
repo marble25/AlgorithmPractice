@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 12. 13..
+//
+
 // 문제가 이해가 안되었을 뿐, 문제를 이해하고 나니 어렵지 않았던 문제
 
 #include <iostream>
