@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 12. 18..
+//
+
 // 문제를 어렵게 생각하지 말고 쉽게 쉽게 생각하자
 
 #include <iostream>
