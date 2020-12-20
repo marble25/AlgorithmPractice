@@ -1,3 +1,7 @@
+//
+// Created by marble on 20. 12. 20..
+//
+
 // segment 트리의 변형인 lazy propagation을 적용
 // 새로운 개념 배우기 + segment tree 복습
 // 아직 segment 트리를 혼자 짜는거는 어렵다
