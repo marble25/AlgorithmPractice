@@ -1,6 +1,3 @@
-// if문 서순...
-// 세그먼트 트리 완전 정복을 위해 노력해야겠다.
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -11,39 +8,21 @@
 #include <string>
 #include <string.h>
 using namespace std;
+int n;
+vector<long long> tree, arr;
+int h[1000010];
 
-int n, q;
-long long arr[100005];
-long long tree[400005];
-
-long long init(int node, int start, int end) {
-    if(start == end) {
-        return tree[node] = arr[start];
+void update(int node, int start, int end, int idx, int diff) {
+    if(idx < start || idx > end) return;
+    tree[node] += diff;
+    if(start^end) {
+        update(node*2, start, (start+end)/2, idx, diff);
+        update(node*2+1, (start+end)/2+1, end, idx, diff);
     }
-
-    long long l = init(node*2, start, (start+end)/2);
-    long long r = init(node*2+1, (start+end)/2+1, end);
-
-    return tree[node] = l + r;
 }
 
-long long update(int node, int start, int end, int idx, long long value) {
-    if(idx < start || idx > end) { // 아랫 것과 바뀌면 바로 틀림 ..
-        return tree[node];
-    }
-
-    if(start == end) {
-        return tree[node] = value;
-    }
-
-    long long l = update(node*2, start, (start+end)/2, idx, value);
-    long long r = update(node*2+1, (start+end)/2+1, end, idx, value);
-
-    return tree[node] = l + r;
-}
-
-long long get(int node, int start, int end, int left, int right) {
-    if(end < left || right < start) {
+long long sum(int node, int start, int end, int left, int right) {
+    if(left > end || right < start) {
         return 0;
     }
 
@@ -51,10 +30,7 @@ long long get(int node, int start, int end, int left, int right) {
         return tree[node];
     }
 
-    long long l = get(node*2, start, (start+end)/2, left, right);
-    long long r = get(node*2+1, (start+end)/2+1, end, left, right);
-
-    return l + r;
+    return sum(node*2, start, (start+end)/2, left, right) + sum(node*2+1, (start+end)/2+1, end, left, right);
 }
 
 int main() {
@@ -62,27 +38,31 @@ int main() {
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    long long x, y, a, b;
+    cin >> n;
 
-    cin >> n >> q;
-    for(int i=0;i<n;i++) {
-        cin >> arr[i];
+    arr = vector<long long>(n+10);
+    tree = vector<long long>(4*n+10);
+
+    for(int i=1;i<=n;i++) {
+        long long t;
+        cin >> t;
+        h[t] = i;
     }
 
-    init(1, 0, n-1);
-
-    for(int i=0;i<q;i++) {
-        cin >> x >> y >> a >> b;
-
-        if(x > y) {
-            long long temp = x;
-            x = y;
-            y = temp;
-        }
-
-        cout << get(1, 0, n-1, x-1, y-1) << "\n";
-        update(1, 0, n-1, a-1, b);
+    for(int i=1;i<=n;i++) {
+        long long t;
+        cin >> t;
+        arr[i] = h[t];
     }
 
+    long long ans = 0;
+
+    for(int i=1;i<=n;i++) {
+        int x = arr[i];
+        ans += sum(1, 1, n, x+1, n);
+        update(1, 1, n, x, 1);
+    }
+
+    cout << ans;
     return 0;
 }
