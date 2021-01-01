@@ -1,3 +1,7 @@
+//
+// Created by marble on 21. 1. 1..
+//
+
 // 더 빨리 푸는 방법이 있는데 더 간단한 방법으로 풀었다.
 
 #include <iostream>
