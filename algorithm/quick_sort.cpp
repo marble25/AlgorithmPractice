@@ -53,8 +53,16 @@ void print(int arr[]) {
     printf("\n");
 }
 
+void shuffle(int arr[]) {
+    for(int i=0;i<SIZE;i++) {
+        int rand_idx = rand() % (SIZE - i) + i;
+        swap(&arr[i], &arr[rand_idx]);
+    }
+}
+
 int main() {
     int arr[] = {3, 5, 1, 10, 2, 7, 9, 4, 6, 8};
+    shuffle(arr);
     quickSort(arr);
     print(arr);
     return 0;
