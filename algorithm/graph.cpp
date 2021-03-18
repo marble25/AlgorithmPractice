@@ -15,7 +15,7 @@ void dfs(int x) {
     printf("%d ", x);
     visited[x] = 1;
     for(int i=0;i<10;i++) {
-        if(visited[i] == 0 && linked[x][i]) {
+        if(visited[i] == 0 && linked[x][i] == 1) {
             dfs(i);
         }
     }
@@ -24,13 +24,13 @@ void dfs(int x) {
 void bfs(int x) {
     q.push(x);
     visited[x] = 1;
-    while(!q.empty()) {
+    while(q.empty() == 0) {
         x = q.front();
         q.pop();
         printf("%d ", x);
 
         for(int i=0;i<10;i++) {
-            if(visited[i] == 0 && linked[x][i]) {
+            if(visited[i] == 0 && linked[x][i] == 1) {
                 q.push(i);
                 visited[i] = 1;
             }
