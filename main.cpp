@@ -1,5 +1,3 @@
-// 더 빨리 푸는 방법이 있는데 더 간단한 방법으로 풀었다.
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -10,35 +8,59 @@
 #include <string>
 #include <string.h>
 using namespace std;
-
-int t;
-int n, m;
-
-int arr[1000005] = {0};
-
 int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-    cin >> t;
+    pair<int, int> king;
+    pair<int, int> rock;
+    vector<string> v = {"R", "L", "B", "T", "RT", "LT", "RB", "LB"};
+    int dx[8] = {0, 0, -1, 1, 1, 1, -1, -1};
+    int dy[8] = {1, -1, 0, 0, 1, -1, 1, -1};
 
-    arr[0] = 1;
-    for(int i=1;i<=1000000;i++) { // 미리 메모이제이션
-        int x = i;
-        while(x > 0) {
-            if(x % 10 == 0) arr[i]++;
-            x /= 10;
+    string s1, s2, input;
+    int n;
+    cin >> s1 >> s2 >> n;
+
+    king.second = s1.at(0) - 'A';
+    king.first = s1.at(1) - '1';
+
+    rock.second = s2.at(0) - 'A';
+    rock.first = s2.at(1) - '1';
+
+    for(int i=0;i<n;i++) {
+        cin >> input;
+
+        for(int j=0;j<v.size();j++) {
+            if(v[j] == input) {
+                int mx_king = king.first + dx[j];
+                int my_king = king.second + dy[j];
+
+                if(mx_king < 0 || my_king < 0 || mx_king >= 8 || my_king >= 8) {
+                    break;
+                }
+
+                if(mx_king != rock.first || my_king != rock.second) {
+                    king.first = mx_king;
+                    king.second = my_king;
+                    break;
+                }
+
+                int mx_rock = rock.first + dx[j];
+                int my_rock = rock.second + dy[j];
+
+                if(mx_rock < 0 || my_rock < 0 || mx_rock >= 8 || my_rock >= 8) {
+                    break;
+                }
+
+                king.first = mx_king;
+                king.second = my_king;
+                rock.first = mx_rock;
+                rock.second = my_rock;
+            }
         }
-
-        arr[i] += arr[i-1];
     }
-
-    for(int i=0;i<t;i++) {
-        cin >> n >> m;
-
-        int x = (n == 0 ? 0 : arr[n-1]);
-        cout << arr[m] - x << "\n";
-    }
-    return 0;
+    cout << (char)('A' + king.second) << king.first + 1 << '\n';
+    cout << (char)('A' + rock.second) << rock.first + 1 << '\n';
 }
